@@ -1,5 +1,25 @@
-*.ipynb
+# Airflow
+airflow/logs/
+airflow/dags/__pycache__/
+airflow/.venv/
+airflow/*.db
 
-*.env
+# Spark
+spark/checkpoint/
+spark-warehouse/
 
+# Python chung
+__pycache__/
 *.pyc
+*.pyo
+*.pyd
+*.egg-info/
+.env
+.env.* 
+
+# Logs & tmp
+*.log
+*.tmp
+*.sqlite
+.DS_Store
+Thumbs.db
