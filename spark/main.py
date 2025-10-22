@@ -5,7 +5,7 @@ import json
 import os
 from datetime import datetime, timezone
 
-# Cấu hình
+# Configs
 OFFSET_FILE = "/opt/spark/checkpoint/last_offsets.json"
 TOPIC = "weather-data"
 BOOTSTRAP_SERVERS = "kafka:9092"
@@ -15,26 +15,27 @@ DB_USER = "postgres"
 DB_PASS = "postgres"
 
 
+def save_last_offset(offsets):
+    # Save offset to checkpoint file
+    with open(OFFSET_FILE, "w") as f:
+        json.dump(offsets, f)
+
+
 def load_last_offset():
-    """Đọc offset từ file checkpoint (nếu có)"""
+    # Load offset from checkpoint file
+
     if os.path.exists(OFFSET_FILE):
         try:
             with open(OFFSET_FILE, "r") as f:
                 content = f.read().strip()
                 if not content:
-                    print("⚠️ Offset file is empty. Starting from earliest.")
+                    print("Offset file is empty. Starting from earliest.")
                     return None
                 return json.loads(content)
         except json.JSONDecodeError as e:
-            print(f"⚠️ Invalid JSON in offset file: {e}. Starting from earliest.")
+            print(f"Invalid JSON in offset file: {e}. Starting from earliest.")
             return None
     return None
-
-
-def save_last_offset(offsets):
-    """Lưu offset vào file checkpoint"""
-    with open(OFFSET_FILE, "w") as f:
-        json.dump(offsets, f)
 
 
 def process_weather_batch():
@@ -48,7 +49,7 @@ def process_weather_batch():
         else:
             starting = "earliest"
 
-        print(f"▶ Starting from offset: {starting}")
+        print(f"Starting from offset: {starting}")
 
         df = (
             spark.read.format("kafka")
@@ -59,7 +60,7 @@ def process_weather_batch():
             .load()
         )
 
-        # 2. Parse JSON data
+        # Parse JSON data
         parsed_df = df.select(
             col("timestamp").alias("kafka_timestamp"),
             col("offset").alias("kafka_offset"),
@@ -68,8 +69,8 @@ def process_weather_batch():
 
         processed_df = transform_weather_df(parsed_df)
 
+        # Write to PostgreSQL
         if processed_df.count() > 0:
-            # 4. Ghi vào PostgreSQL
             processed_df.write.format("jdbc").option("url", DB_URL).option(
                 "dbtable", DB_TABLE
             ).option("user", DB_USER).option("password", DB_PASS).option(
@@ -82,19 +83,19 @@ def process_weather_batch():
                 "append"
             ).save()
 
-            # 5. Lưu offset lớn nhất đã xử lý
+            # Save the largest processed offset
             max_offset = processed_df.agg({"kafka_offset": "max"}).collect()[0][0]
             save_last_offset(max_offset)
 
-            print(f"✅ Wrote records up to offset {max_offset} into DB.")
+            print(f"Wrote records up to offset {max_offset} into DB.")
         else:
-            print("ℹ️ No new records to process.")
+            print("No new records to process.")
 
     except Exception as e:
-        print(f"❌ Error: {str(e)}")
+        print(f"Error: {str(e)}")
     finally:
         spark.stop()
-        print("🛑 Spark session stopped.")
+        print("Spark session stopped.")
 
 
 if __name__ == "__main__":

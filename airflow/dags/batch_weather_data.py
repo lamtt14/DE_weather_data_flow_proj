@@ -9,12 +9,23 @@ import os
 
 load_dotenv()
 API_KEY = os.getenv("OPENWEATHER_API_KEY")
-CITIES = ["Hanoi", "Ho Chi Minh City", "HaiPhong"]
+CITIES = [
+    "Ho Chi Minh City",
+    "Quy Nhon",
+    "Ha Long",
+    "Pleiku",
+    "Ninh Binh",
+    "Nha Trang",
+    "Da Lat",
+    "Can Tho",
+    "Vung Tau",
+]
+TOPIC = "weather_topic"
 
 
 def run_weather_batch():
-    producer = WeatherProducer(API_KEY)
-    producer.run_batch(CITIES, delay_between_cities=5)
+    producer = WeatherProducer(API_KEY, TOPIC)
+    producer.run_batch(CITIES)
 
 
 default_args = {
@@ -27,7 +38,6 @@ with DAG(
     "my_weather_flow_dag",
     default_args=default_args,
     description="ETL pipeline",
-    # schedule="*/15 * * * *",  # mỗi 15 min
     schedule=None,
     start_date=datetime(2025, 9, 20),
     catchup=False,
@@ -42,7 +52,7 @@ with DAG(
     run_spark_job = SparkSubmitOperator(
         task_id="run_spark_consumer_job",
         application="/opt/spark-apps/main.py",
-        conn_id="spark_default",  # Connection đã tạo trong UI
+        conn_id="spark_default",  # Connection UI
         deploy_mode="client",
         packages="org.apache.spark:spark-sql-kafka-0-10_2.13:4.0.1,org.postgresql:postgresql:42.7.3",
         verbose=True,

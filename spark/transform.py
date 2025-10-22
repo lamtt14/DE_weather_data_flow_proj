@@ -1,6 +1,30 @@
 from pyspark.sql.types import *
 from pyspark.sql.functions import *
 
+# {'coord': {'lon': 107.08, 'lat': 20.9511},
+#  'weather': [{'id': 803,
+#    'main': 'Clouds',
+#    'description': 'broken clouds',
+#    'icon': '04d'}],
+#  'base': 'stations',
+#  'main': {'temp': 28.26,
+#   'feels_like': 32.59,
+#   'temp_min': 28.26,
+#   'temp_max': 28.26,
+#   'pressure': 1010,
+#   'humidity': 79,
+#   'sea_level': 1010,
+#   'grnd_level': 1001},
+#  'visibility': 10000,
+#  'wind': {'speed': 4.11, 'deg': 92, 'gust': 6.18},
+#  'clouds': {'all': 78},
+#  'dt': 1760519387,
+#  'sys': {'country': 'VN', 'sunrise': 1760482009, 'sunset': 1760524072},
+#  'timezone': 25200,
+#  'id': 1580410,
+#  'name': 'Ha Long',
+#  'cod': 200}
+
 
 def get_weather_schema():
     return StructType(
