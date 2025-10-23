@@ -1,4 +1,4 @@
-# Copilot Instructions for AI Agents
+# OpenWeather data project
 
 ## Project Overview
 This project is a weather data ETL pipeline using Apache Airflow, Apache Spark, Kafka, and PostgreSQL. It fetches weather data from the OpenWeatherMap API for multiple cities, ingests it into Kafka, processes it with Spark, and stores the results in a PostgreSQL database. The system is containerized using Docker Compose.
