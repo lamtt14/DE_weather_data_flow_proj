@@ -7,7 +7,7 @@ from datetime import datetime, timezone
 
 # Configs
 OFFSET_FILE = "/opt/spark/checkpoint/last_offsets.json"
-TOPIC = "weather-data"
+TOPIC = "from-openweather-data"
 BOOTSTRAP_SERVERS = "kafka:9092"
 DB_URL = "jdbc:postgresql://postgres:5432/weatherdb"
 DB_TABLE = "weather_processed"

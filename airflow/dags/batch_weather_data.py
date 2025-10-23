@@ -20,7 +20,7 @@ CITIES = [
     "Can Tho",
     "Vung Tau",
 ]
-TOPIC = "weather_topic"
+TOPIC = "from-openweather-data"
 
 
 def run_weather_batch():
