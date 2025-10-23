@@ -50,7 +50,7 @@ weather_data/
    docker-compose up -d --build
    ```
 4. Access UIs:
-   - Airflow: [http://localhost:8080](http://localhost:8080)
+   - Airflow: [http://localhost:8082](http://localhost:8080)
    - Kafka UI: [http://localhost:8080](http://localhost:8080)
    - Spark UI: [http://localhost:8081](http://localhost:8081)
 
