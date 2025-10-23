@@ -3,7 +3,7 @@
 This project implements a weather data ETL pipeline using Apache Airflow, Apache Spark, Kafka, and PostgreSQL. It fetches weather data from the OpenWeatherMap API for multiple cities, ingests it into Kafka, processes it with Spark, and stores the results in a PostgreSQL database. The system is containerized using Docker Compose.
 
 ## Architecture Overview
-![Project Architecture](imgs/openweather_proj.drawio.png)
+![Project Architecture](imgs/1.openweather_proj.drawio.png)
 - **Airflow DAGs** (`airflow/dags/`):
   - `batch_weather_data.py`: Main ETL DAG. Runs a Python task to fetch weather data and a Spark job to process it.
   - `weather_producer.py`: Contains `WeatherProducer`, which fetches weather data from the API and sends it to Kafka.
@@ -12,34 +12,6 @@ This project implements a weather data ETL pipeline using Apache Airflow, Apache
   - `transform.py`, `spark_utils.py`: Define schema and transformation logic for weather data.
 - **Docker Compose** (`docker-compose.yaml`):
   - Orchestrates Airflow, Spark, Kafka, PostgreSQL, and Redis containers. Mounts code and checkpoint files into containers.
-
-## Getting Started
-
-### Prerequisites
-- Docker & Docker Compose
-- OpenWeatherMap API key (set in `.env`). Get it from [here](https://home.openweathermap.org/api_keys)
-
-### Setup & Run
-1. Clone the repository and navigate to the project directory
-2. Add your OpenWeatherMap API key and user id of Airflow to a `.env` file:
-   ```env
-   OPENWEATHER_API_KEY=your_api_key_here
-   AIRFLOW_UID=50000
-   ```
-3. Build and start the services:
-   ```sh
-   docker-compose up -d --build
-   ```
-4. Access UIs:
-   - Airflow: [http://localhost:8080](http://localhost:8080)
-   - Kafka UI: [http://localhost:8080](http://localhost:8080)
-   - Spark UI: [http://localhost:8081](http://localhost:8081)
-
-
-## Integration Points
-- **External APIs**: OpenWeatherMap API (API key required in `.env`)
-- **Kafka**: Used for inter-process communication between Airflow (producer) and Spark (consumer)
-- **PostgreSQL**: Final data sink for processed weather data
 
 ## File Structure
 ```
@@ -60,22 +32,28 @@ weather_data/
 └── .env
 ```
 
-## License
-MIT# OpenWeatherMap data project
+## Getting Started
 
-## Overview
-This project is a weather data ETL pipeline using Apache Airflow, Apache Spark, Kafka, and PostgreSQL. It fetches weather data from the OpenWeatherMap API for multiple cities, ingests it into Kafka, processes it with Spark, and stores the results in a PostgreSQL database. The system is containerized using Docker Compose.
+### Prerequisites
+- Docker & Docker Compose.
+- OpenWeatherMap API key (set in `.env`). Get it from [here](https://home.openweathermap.org/api_keys)
 
-## Architecture
-![Project Architecture](imgs/openweather_proj.drawio.png)
-- **Airflow** (`airflow/dags/`):
-  - `batch_weather_data.py`: Defines the main ETL DAG. Runs a Python task to fetch weather data and a Spark job to process it.
-  - `weather_producer.py`: Contains `WeatherProducer`, which fetches weather data from the API and sends it to Kafka.
-- **Spark** (`spark/`):
-  - `main.py`: Consumes weather data from Kafka, transforms it, and writes to PostgreSQL. Handles offset checkpointing in `checkpoint/last_offsets.json`.
-  - `transform.py`, `spark_utils.py`: Define schema and transformation logic for weather data.
-- **Docker** (`docker-compose.yaml`):
-  - Orchestrates Airflow, Spark, Kafka, PostgreSQL, and Redis containers. Mounts code and checkpoint files into containers.
+### Setup & Run
+1. Clone the repository and navigate to the project directory
+2. Add your OpenWeatherMap API key and user id of Airflow to a `.env` file:
+   ```env
+   OPENWEATHER_API_KEY=your_api_key_here
+   AIRFLOW_UID=50000
+   ```
+3. Build and start the services:
+   ```sh
+   docker-compose up -d --build
+   ```
+4. Access UIs:
+   - Airflow: [http://localhost:8080](http://localhost:8080)
+   - Kafka UI: [http://localhost:8080](http://localhost:8080)
+   - Spark UI: [http://localhost:8081](http://localhost:8081)
+
 
 
 
