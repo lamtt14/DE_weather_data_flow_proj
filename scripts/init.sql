@@ -1,9 +1,9 @@
--- Tạo database (không cần nếu bạn đã set POSTGRES_DB = weatherdb trong docker-compose.yml)
+-- create database
 CREATE DATABASE weatherdb;
 
 \c weatherdb;
 
--- Tạo bảng weather_processed
+-- create weather_processed
 CREATE TABLE IF NOT EXISTS weather_processed (
     kafka_timestamp TIMESTAMP,
     kafka_offset BIGINT,

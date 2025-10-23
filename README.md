@@ -49,7 +49,14 @@ weather_data/
    ```sh
    docker-compose up -d --build
    ```
-4. Access UIs:
+4. Setup connection UI for SparkSubmitOperator
+![UI](imgs/2.setup_connection.png)
+
+5. Run DAG from Airflow:
+![Run](imgs/3.run.png)
+
+
+6. Access UIs:
    - Airflow: [http://localhost:8082](http://localhost:8080)
    - Kafka UI: [http://localhost:8080](http://localhost:8080)
    - Spark UI: [http://localhost:8081](http://localhost:8081)
