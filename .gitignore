@@ -16,7 +16,7 @@ __pycache__/
 .env
 .env.* 
 .ipynb
-
+.github
 
 # Logs & tmp
 *.log
@@ -24,3 +24,5 @@ __pycache__/
 *.sqlite
 .DS_Store
 Thumbs.db
+
+.drawio
